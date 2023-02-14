@@ -22,10 +22,10 @@
 
         var options = {
          enableHighAccuracy: true,
-         timeout: 5000,
+         timeout: 6000,
          maximumAge: 0
         }
-        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,5000)
+        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,6000)
 
 
     } else {
@@ -61,12 +61,22 @@
             center: {lat: userLat, lng: userLng}
         });
 
+        var iconPerson = {
+            url: 'person.jpg',
+            size: new google.maps.Size(50, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(25, 50),
+            scaledSize: new google.maps.Size(50, 50)
+            };
+
         var marker = new google.maps.Marker({
             position: {lat: userLat, lng: userLng},
-            map: map
+            map: map,
+            title: 'Você',
+            icon: iconPerson
         });
 
-        var icon = {
+        var iconLoja = {
             url: 'icon.jpg',
             size: new google.maps.Size(50, 50),
             origin: new google.maps.Point(0, 0),
@@ -78,7 +88,7 @@
             position: {lat: -3.05256, lng: -59.98516},
             map: map,
             title: 'Carvalho Veículos',
-            icon: icon
+            icon: iconLoja
             });
 
         var pointsOfInterest = [

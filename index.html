@@ -9,17 +9,20 @@
       width: 100%;
     }
   </style>
-  <title>Aplicativo para Turistas</title>
+  <title>Carvalho Veículos App</title>
 </head>
 <body>
-  <h1>Aplicativo para Turistas</h1>
+  <h1>Carvalho Veículos App</h1>
 
-  <p id="info">Aguardando a localização do usuário...</p>
+  <p id="info">Visite a Carvalho veículos, você vai encontrar os melhores carros e preços</p>
   <div id="map"></div>
 
   <script>
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
+
+        var watchId = navigator.geolocation.watchPosition(showPosition);
+
+
     } else {
       document.getElementById("info").innerHTML = "Geolocation não é suportado pelo seu navegador.";
     }
@@ -31,7 +34,7 @@
         console.log("userLng:"+userLng);
         // Show the location on the map
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 8,
+            zoom: 15,
             center: {lat: userLat, lng: userLng}
         });
 
@@ -40,94 +43,50 @@
             map: map
         });
 
-
-        var pointsOfInterest = [
-            { name: "Teatro Amazonas", lat: -3.133333, lng: -60.021389 },
-            { name: "Arena da Amazônia", lat: -3.0832457, lng: -60.0303279 },
-            { name: "Praia da Ponta Negra", lat: -3.0646648, lng: -60.1052856 },
-            { name: "Amazonas Shopping", lat: -3.0941363, lng: -60.0314493 }
-        ];
-
-        var potDistance = new Array();
-
-        for (var i = 0; i < pointsOfInterest.length; i++) {
-            var pointOfInterest = pointsOfInterest[i];
-            
-            var marker = new google.maps.Marker({
-            position: {lat: pointOfInterest.lat, lng: pointOfInterest.lng},
-            map: map
+        var icon = {
+            url: 'icon.jpg',
+            size: new google.maps.Size(50, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(25, 50),
+            scaledSize: new google.maps.Size(50, 50)
+            };
+        
+        var marker = new google.maps.Marker({
+            position: {lat: -3.05256, lng: -59.98516},
+            map: map,
+            title: 'Carvalho Veículos',
+            icon: icon
             });
 
+        var pointsOfInterest = [
+            { name: "Dodo Veiculos 1", lat: -3.10753, lng: -60.01275 },
+            { name: "Dodo Veiculos 2", lat: -3.11638, lng: -60.01642 },
+            { name: "Logos Veiculos", lat: -3.10631, lng: -59.98101 },
+            { name: "Martins Veiculos", lat: -3.05827, lng: -60.02448 },
+            { name: "Bets Car Manaus 1", lat: -3.05816, lng: -60.02550 },
+            { name: "Bets Car Manaus 2", lat: -3.10409, lng: -60.02636 },
+            { name: "Tavares Veículos", lat: -3.06054, lng: -60.02256 },
+            { name: "Revemar Seminovos", lat: -3.06022, lng: -60.02617 },
+            { name: "Braga Seminovos", lat: -3.08504, lng: -60.02397 },
+            { name: "Kodo Veiculos", lat: -3.10957, lng: -60.01627 },
+            { name: "Vilvadao Veiculos", lat: -3.08727, lng: -60.02446 },
+            { name: "Zero92 MultiMarcas", lat: -3.07373, lng: -60.02980 },
+            { name: "Patio Veiculos", lat: -3.09456, lng: -60.00931 }
+        ];
+
+        for (var i = 0; i < pointsOfInterest.length; i++) {
+            var pointOfInterest = pointsOfInterest[i];            
+           
             var dist = calculateDistance(userLat, userLng, pointOfInterest.lat, pointOfInterest.lng);
-            potDistance.push(dist);             
-        }
-       
 
-        if (potDistance[0] <= 0.5) { // 500 metros
-                document.getElementById("info").innerHTML = "Você está próximo do Teatro Amazonas!";
-
-                if (window.DeviceOrientationEvent) {
-                    window.addEventListener("deviceorientation", function(event) {
-                        document.getElementById("info").innerHTML += "<br>Grau: " + event.alpha;
-
-                        if (event.alpha >= 340 || event.alpha <= 20) {
-                            document.getElementById("info").innerHTML += "<br>Você está apontando para o Teatro Amazonas!";
-                        } 
-                    });
-                }
-            } else {
-                document.getElementById("info").innerHTML = "Você não está próximo do Teatro Amazonas.";
-            }
+            if (dist <= 0.8) { // 800 metros
+                document.getElementById("info").innerHTML = "Visite a Carvalho veículos, você vai encontrar os melhores carros e preços";
+                alert("Visite a Carvalho veículos, você vai encontrar os melhores carros e preços")                
+            } 
+                       
+        }  
+    }      
         
-        if (potDistance[1] <= 0.5) { // 500 metros
-            document.getElementById("info").innerHTML = "Você está próximo da Arena da Amazônia!";
-
-            if (window.DeviceOrientationEvent) {
-                window.addEventListener("deviceorientation", function(event) {
-                    document.getElementById("info").innerHTML += "<br>Grau: " + event.alpha;
-
-                    if (event.alpha >= 340 || event.alpha <= 20) {
-                        document.getElementById("info").innerHTML += "<br>Você está apontando para Arena da Amazônia!";
-                    } 
-                });
-            }
-        } else {
-            document.getElementById("info").innerHTML = "Você não está próximo da Arena da Amazônia.";
-        }
-
-        if (potDistance[2] <= 0.5) { // 500 metros
-            document.getElementById("info").innerHTML = "Você está próximo da Praia da Ponta Negra!";
-
-            if (window.DeviceOrientationEvent) {
-                window.addEventListener("deviceorientation", function(event) {
-                    document.getElementById("info").innerHTML += "<br>Grau: " + event.alpha;
-
-                    if (event.alpha >= 340 || event.alpha <= 20) {
-                        document.getElementById("info").innerHTML += "<br>Você está apontando para Praia da Ponta Negra!";
-                    } 
-                });
-            }
-        } else {
-            document.getElementById("info").innerHTML = "Você não está próximo da Praia da Ponta Negra.";
-        }
-
-        if (potDistance[3] <= 10) { // 10km
-            document.getElementById("info").innerHTML = "Você está próximo do Amazonas Shopping!";
-
-            if (window.DeviceOrientationEvent) {
-                window.addEventListener("deviceorientation", function(event) {
-
-                    document.getElementById("info").innerHTML += "<br>Grau: " + event.alpha;
-
-                    if (event.alpha >= 340 || event.alpha <= 20) {
-                        document.getElementById("info").innerHTML += "<br>Você está apontando para o Amazonas Shopping!";
-                    } 
-                });
-            }
-        } else {
-            document.getElementById("info").innerHTML = "Você não está próximo do Amazonas Shopping.";
-        }        
-    }
 
     function calculateDistance(lat1, lng1, lat2, lng2) {
         var radlat1 = Math.PI * lat1/180;

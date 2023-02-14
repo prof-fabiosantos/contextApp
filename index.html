@@ -38,10 +38,10 @@
         
         var options = {
          enableHighAccuracy: true,
-         timeout: 1000,
+         timeout: 500,
          maximumAge: 0
         }
-        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,1000)
+        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,500)
 
 
     } else {

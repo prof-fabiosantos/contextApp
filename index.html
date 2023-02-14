@@ -20,16 +20,39 @@
   <script>
     if (navigator.geolocation) {
 
-        var watchId = navigator.geolocation.watchPosition(showPosition);
+        var options = {
+         enableHighAccuracy: true,
+         timeout: 5000,
+         maximumAge: 0
+        }
+        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,5000)
 
 
     } else {
       document.getElementById("info").innerHTML = "Geolocation não é suportado pelo seu navegador.";
     }
-      
+    
+    function errorCallback(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+            console.log("O usuário negou a solicitação de geolocalização.");
+            break;
+            case error.POSITION_UNAVAILABLE:
+            console.log("Não foi possível obter a localização do usuário.");
+            break;
+            case error.TIMEOUT:
+            console.log("A solicitação para obter a localização do usuário expirou.");
+            break;
+            default:
+            console.log("Ocorreu um erro desconhecido ao obter a localização do usuário.");
+            break;
+        }
+    }
+
     function showPosition(position) {
         var userLat = position.coords.latitude;
         var userLng = position.coords.longitude;
+        
         console.log("userLat:"+userLat);
         console.log("userLng:"+userLng);
         // Show the location on the map

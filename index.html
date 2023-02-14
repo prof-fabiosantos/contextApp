@@ -14,7 +14,7 @@
 <body>
   <h1>Carvalho Veículos App</h1>
 
-  <p id="info">Visite a Carvalho veículos, você vai encontrar os melhores carros e preços</p>
+  <p id="info"><h3>Visite a Carvalho Veículos, você vai encontrar os melhores carros e preços</h3></p>
   <div id="map"></div>
 
   <script>
@@ -41,7 +41,7 @@
          timeout: 0,
          maximumAge: 0
         }
-        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,50)
+        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,2)
         //var watchId = navigator.geolocation.watchPosition(showPosition)
 
 
@@ -77,7 +77,7 @@
         
 
         var iconPerson = {
-            url: 'person.jpg',
+            url: 'person.png',
             size: new google.maps.Size(50, 50),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(25, 50),
@@ -92,7 +92,7 @@
         });
 
         var iconLoja = {
-            url: 'icon.jpg',
+            url: 'icon.png',
             size: new google.maps.Size(50, 50),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(25, 50),

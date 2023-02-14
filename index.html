@@ -18,14 +18,30 @@
   <div id="map"></div>
 
   <script>
+    var map
     if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Latitude: " + latitude + ", Longitude: " + longitude);
 
+            map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: {lat: latitude, lng: longitude}
+            });
+        });
+    } else {
+    console.log("Geolocalização não é suportada neste navegador.");
+    }
+
+    if (navigator.geolocation) {               
+        
         var options = {
          enableHighAccuracy: true,
-         timeout: 6000,
+         timeout: 3000,
          maximumAge: 0
         }
-        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,6000)
+        var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,3000)
 
 
     } else {
@@ -56,10 +72,7 @@
         console.log("userLat:"+userLat);
         console.log("userLng:"+userLng);
         // Show the location on the map
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
-            center: {lat: userLat, lng: userLng}
-        });
+        
 
         var iconPerson = {
             url: 'person.jpg',

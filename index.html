@@ -5,7 +5,7 @@
   <style>
     /* Style the map container */
     #map {
-      height: 500px;
+      height: 1000px;
       width: 100%;
     }
   </style>
@@ -15,6 +15,9 @@
   <h1>Carvalho Veículos App</h1>
 
   <p id="info"><h3>Visite a Carvalho Veículos, você vai encontrar os melhores carros e preços</h3></p>
+  <h3>Sua localização atual</h3>
+  <p id="localizacaoUsuario"></p>
+  <p></p>
   <div id="map"></div>
 
   <script>
@@ -26,7 +29,7 @@
             console.log("Latitude: " + latitude + ", Longitude: " + longitude);
 
             map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
+            zoom: 18,
             center: {lat: latitude, lng: longitude}
             });
         });
@@ -42,9 +45,6 @@
          maximumAge: 0
         }
         var watchId = navigator.geolocation.watchPosition(showPosition,errorCallback,options,2)
-        //var watchId = navigator.geolocation.watchPosition(showPosition)
-
-
 
     } else {
       document.getElementById("info").innerHTML = "Geolocation não é suportado pelo seu navegador.";
@@ -73,8 +73,9 @@
         
         console.log("userLat:"+userLat);
         console.log("userLng:"+userLng);
-        // Show the location on the map
-        
+
+        document.getElementById("localizacaoUsuario").innerHTML = "Latitude:"+userLat+", Longitude:"+userLng;
+              
 
         var iconPerson = {
             url: 'person.png',

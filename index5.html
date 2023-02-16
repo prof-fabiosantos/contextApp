@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geolocation Fence Alert</title>
+    <script>
+        // Request location permission
+navigator.permissions.query({ name: 'geolocation' }).then(result => {
+  if (result.state === 'granted') {
+    startGeofenceWatch();
+  } else if (result.state === 'prompt') {
+    navigator.geolocation.getCurrentPosition(position => {
+      startGeofenceWatch();
+    });
+  } else {
+    alert('Location permission denied');
+  }
+});
+
+// Start geofence watch
+function startGeofenceWatch() {
+  navigator.geolocation.watchPosition(position => {
+    checkFence(position.coords.latitude, position.coords.longitude);
+  }, error => {
+    console.error(error);
+  }, {
+    enableHighAccuracy: true,
+    maximumAge: 0
+  });
+
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(function(registration) {
+      console.log('Service worker registered with scope: ', registration.scope);
+    })
+    .catch(function(err) {
+      console.error('Service worker registration failed: ', err);
+    });
+  }
+
+  
+
+}
+
+// Check if the location is within the fence
+function checkFence(latitude, longitude) {
+  const fenceLatitude = -3.10957; // San Francisco latitude
+  const fenceLongitude = -60.01627; // San Francisco longitude
+  const fenceRadius = 10000; // 1 km fence radius
+
+  const distance = getDistanceFromLatLonInKm(latitude, longitude, fenceLatitude, fenceLongitude);
+  if (distance <= fenceRadius) {
+    //showNotification('Geofence Alert', 'You are within the fence!');
+    if (navigator.serviceWorker) {
+        alert("TESTE");
+        /*
+        navigator.serviceWorker.ready.then(function(registration) {
+            registration.showNotification("Entrando na área restrita", {
+            body: "Você entrou na área restrita.",
+            icon: "https://example.com/icon.png"
+            });
+        });*/
+   }
+
+  }
+}
+
+// Calculate distance between two points
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2 - lat1);  // deg2rad below
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI / 180)
+}
+
+// Show notification
+function showNotification(title, message) {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(registration => {
+      registration.showNotification(title, {
+        body: message
+      });
+    });
+  } else {
+    alert(message);
+  }
+}
+</script>
+<body></body>
+</html>

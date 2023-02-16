@@ -139,13 +139,16 @@
            
             var dist = calculateDistance(userLat, userLng, pointOfInterest.lat, pointOfInterest.lng);
 
-            if (dist <= 10) { // 0.02 20 metros
-                alert("VISITE A CARVALHO VEÍCULOS, você vai encontrar os melhores carros e preços")                
+            if (dist <= 0.02) { // 0.02 20 metros
+                alert("VISITE A CARVALHO VEÍCULOS, você vai encontrar os melhores carros e preços");                
+
                 // Se a posição estiver dentro da cerca geográfica, exibe uma notificação
+                /*
                 const notification = new Notification("Alerta de Cerca de Geolocalização Única", {
                     body: "Você está dentro da cerca geográfica!",
                     icon: "https://cdn.pixabay.com/photo/2016/09/18/11/31/notifications-1671285_960_720.png",
-                });
+                });*/
+                
             } 
                        
         }  
